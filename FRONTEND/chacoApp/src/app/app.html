@@ -1,0 +1,37 @@
+<div class="min-h-screen bg-stone-950 text-stone-100 flex flex-col font-sans selection:bg-amber-500 selection:text-stone-950">
+  
+  <!-- Encabezado Global -->
+  <app-header (toggleTimeline)="toggleTimeline()"></app-header>
+
+  <!-- Contenedor Principal: Sidebar Timeline + Contenido Detalle -->
+  <div class="flex-1 flex relative overflow-hidden">
+
+    <!-- Overlay para dispositivos móviles cuando el menú está abierto -->
+    @if (isTimelineOpen()) {
+      <div
+        class="fixed inset-0 bg-black/70 backdrop-blur-xs z-30 lg:hidden transition-opacity"
+        (click)="closeTimeline()"
+        aria-hidden="true"
+      ></div>
+    }
+
+    <!-- Panel de Línea de Tiempo Colapsable -->
+    <aside
+      class="fixed inset-y-0 left-0 top-20 z-30 w-80 sm:w-88 transform transition-transform duration-300 ease-in-out lg:static lg:transform-none lg:z-10 shrink-0"
+      [class]="isTimelineOpen() ? 'translate-x-0' : '-translate-x-full lg:hidden'"
+      aria-label="Navegación cronológica"
+    >
+      <app-timeline (closeTimeline)="closeTimeline()"></app-timeline>
+    </aside>
+
+    <!-- Área de Contenido Principal -->
+    <section class="flex-1 overflow-y-auto w-full min-w-0 bg-stone-950">
+      <router-outlet></router-outlet>
+    </section>
+
+  </div>
+
+  <!-- Asistente Conversacional IA (Widget Flotante) -->
+  <app-chatbot></app-chatbot>
+
+</div>
